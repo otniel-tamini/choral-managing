@@ -14,6 +14,8 @@ const rapportsRoutes = require('./routes/rapports');
 const exportRoutes = require('./routes/export');
 const activitesRoutes = require('./routes/activites');
 const programmationRoutes = require('./routes/programmation');
+const authRoutes = require('./routes/auth');
+const authMiddleware = require('./middleware/auth');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -22,16 +24,19 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Routes
-app.use('/api/choristes', choristesRoutes);
-app.use('/api/cotisations', cotisationsRoutes);
-app.use('/api/dons', donsRoutes);
-app.use('/api/depenses', depensesRoutes);
-app.use('/api/dashboard', dashboardRoutes);
-app.use('/api/rapports', rapportsRoutes);
-app.use('/api/export', exportRoutes);
-app.use('/api/activites', activitesRoutes);
-app.use('/api/programmation', programmationRoutes);
+// Public Routes
+app.use('/api/auth', authRoutes);
+
+// Protected Routes
+app.use('/api/choristes', authMiddleware, choristesRoutes);
+app.use('/api/cotisations', authMiddleware, cotisationsRoutes);
+app.use('/api/dons', authMiddleware, donsRoutes);
+app.use('/api/depenses', authMiddleware, depensesRoutes);
+app.use('/api/dashboard', authMiddleware, dashboardRoutes);
+app.use('/api/rapports', authMiddleware, rapportsRoutes);
+app.use('/api/export', authMiddleware, exportRoutes);
+app.use('/api/activites', authMiddleware, activitesRoutes);
+app.use('/api/programmation', authMiddleware, programmationRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

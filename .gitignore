@@ -1,0 +1,12 @@
+node_modules/
+.env
+dist/
+.DS_Store
+*.log
+.gemini/
+.agent/
+.agents/
+brain/
+*.sql
+!init.sql
+!02_update_cotisations.sql
